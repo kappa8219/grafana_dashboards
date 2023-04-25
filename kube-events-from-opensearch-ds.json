@@ -1,0 +1,503 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_ELASTICSEARCH-KUBEEVENTS",
+      "label": "Elasticsearch-KubeEvents",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "elasticsearch",
+      "pluginName": "Elasticsearch"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "datasource",
+      "id": "elasticsearch",
+      "name": "Elasticsearch",
+      "version": "1.0.0"
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.4.7"
+    },
+    {
+      "type": "panel",
+      "id": "logs",
+      "name": "Logs",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                50
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "5m",
+        "frequency": "1m",
+        "handler": 1,
+        "name": "DEV US K8S Events type Warning",
+        "noDataState": "no_data",
+        "notifications": [
+          {
+            "uid": "g6mQCxu7z"
+          }
+        ]
+      },
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 11,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "firstTimestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+          },
+          "hide": true,
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "type.keyword: Warning",
+          "refId": "A",
+          "timeField": "firstTimestamp"
+        },
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "type.keyword",
+              "id": "3",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "asc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "field": "firstTimestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+          },
+          "hide": false,
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "",
+          "refId": "B",
+          "timeField": "firstTimestamp"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "op": "gt",
+          "value": 50,
+          "visible": true
+        }
+      ],
+      "title": "K8S Events per Type",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 4,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 13,
+        "x": 11,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "metadata.namespace.keyword",
+              "id": "3",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "field": "firstTimestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+          },
+          "hide": false,
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "",
+          "refId": "B",
+          "timeField": "firstTimestamp"
+        }
+      ],
+      "title": "K8S Events per Namespace",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 4,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+          },
+          "hide": false,
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "limit": "100"
+              },
+              "type": "logs"
+            }
+          ],
+          "query": "",
+          "refId": "A",
+          "timeField": "firstTimestamp"
+        }
+      ],
+      "title": "K8S Events Logs",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "_id": 3,
+              "_index": 4,
+              "_source": 5,
+              "_type": 6,
+              "count": 7,
+              "eventTime": 8,
+              "firstTimestamp": 0,
+              "highlight": 9,
+              "involvedObject": 10,
+              "involvedObject.annotations.meta_helm_sh/release-name": 11,
+              "involvedObject.annotations.meta_helm_sh/release-namespace": 12,
+              "involvedObject.annotations.prometheus_io/scrape": 13,
+              "involvedObject.apiVersion": 14,
+              "involvedObject.fieldPath": 15,
+              "involvedObject.kind": 16,
+              "involvedObject.labels.app": 17,
+              "involvedObject.labels.app_kubernetes_io/managed-by": 18,
+              "involvedObject.labels.app_kubernetes_io/name": 19,
+              "involvedObject.labels.chart": 20,
+              "involvedObject.labels.controller-revision-hash": 21,
+              "involvedObject.labels.controller-uid": 22,
+              "involvedObject.labels.heritage": 23,
+              "involvedObject.labels.job-name": 24,
+              "involvedObject.labels.k8s-app": 25,
+              "involvedObject.labels.pod-template-generation": 26,
+              "involvedObject.labels.pod-template-hash": 27,
+              "involvedObject.labels.release": 28,
+              "involvedObject.name": 29,
+              "involvedObject.namespace": 30,
+              "involvedObject.resourceVersion": 31,
+              "involvedObject.uid": 32,
+              "lastTimestamp": 33,
+              "message": 1,
+              "metadata.creationTimestamp": 34,
+              "metadata.name": 35,
+              "metadata.namespace": 36,
+              "metadata.resourceVersion": 37,
+              "metadata.uid": 38,
+              "reason": 39,
+              "reportingComponent": 40,
+              "reportingInstance": 41,
+              "sort": 42,
+              "source.component": 43,
+              "source.host": 44,
+              "type": 2
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "logs"
+    }
+  ],
+  "refresh": "",
+  "revision": 1,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "K8S Events from Elastic",
+  "uid": "kuMd2Ku7k",
+  "version": 5,
+  "weekStart": ""
+}
