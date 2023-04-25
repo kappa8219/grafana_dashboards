@@ -7,6 +7,14 @@
       "type": "datasource",
       "pluginId": "elasticsearch",
       "pluginName": "Elasticsearch"
+    },
+    {
+      "name": "DS_OPENSEARCHKUBEEVENTS",
+      "label": "OpensearchKubeEvents",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-opensearch-datasource",
+      "pluginName": "OpenSearch"
     }
   ],
   "__elements": {},
@@ -22,6 +30,12 @@
       "id": "grafana",
       "name": "Grafana",
       "version": "9.4.7"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-opensearch-datasource",
+      "name": "OpenSearch",
+      "version": "2.4.0"
     },
     {
       "type": "panel",
@@ -260,8 +274,8 @@
     },
     {
       "datasource": {
-        "type": "elasticsearch",
-        "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+        "type": "grafana-opensearch-datasource",
+        "uid": "${DS_OPENSEARCHKUBEEVENTS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -342,7 +356,7 @@
               "field": "metadata.namespace.keyword",
               "id": "3",
               "settings": {
-                "min_doc_count": "1",
+                "min_doc_count": "0",
                 "order": "desc",
                 "orderBy": "_term",
                 "size": "10"
@@ -359,10 +373,10 @@
             }
           ],
           "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+            "type": "grafana-opensearch-datasource",
+            "uid": "${DS_OPENSEARCHKUBEEVENTS}"
           },
-          "hide": false,
+          "format": "table",
           "metrics": [
             {
               "id": "1",
@@ -370,8 +384,9 @@
             }
           ],
           "query": "",
-          "refId": "B",
-          "timeField": "firstTimestamp"
+          "queryType": "lucene",
+          "refId": "A",
+          "timeField": "metadata.creationTimestamp"
         }
       ],
       "title": "K8S Events per Namespace",
@@ -379,8 +394,8 @@
     },
     {
       "datasource": {
-        "type": "elasticsearch",
-        "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+        "type": "grafana-opensearch-datasource",
+        "uid": "${DS_OPENSEARCHKUBEEVENTS}"
       },
       "gridPos": {
         "h": 16,
@@ -399,27 +414,30 @@
         "sortOrder": "Descending",
         "wrapLogMessage": false
       },
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "alias": "",
           "bucketAggs": [],
           "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+            "type": "grafana-opensearch-datasource",
+            "uid": "${DS_OPENSEARCHKUBEEVENTS}"
           },
-          "hide": false,
+          "format": "table",
           "metrics": [
             {
               "id": "1",
               "settings": {
-                "limit": "100"
+                "size": "500",
+                "useTimeRange": true
               },
-              "type": "logs"
+              "type": "raw_data"
             }
           ],
           "query": "",
+          "queryType": "lucene",
           "refId": "A",
-          "timeField": "firstTimestamp"
+          "timeField": "metadata.creationTimestamp"
         }
       ],
       "title": "K8S Events Logs",
@@ -427,52 +445,88 @@
         {
           "id": "organize",
           "options": {
-            "excludeByName": {},
+            "excludeByName": {
+              "firstTimestamp": false,
+              "message": false
+            },
             "indexByName": {
               "_id": 3,
               "_index": 4,
-              "_source": 5,
-              "_type": 6,
-              "count": 7,
-              "eventTime": 8,
-              "firstTimestamp": 0,
-              "highlight": 9,
-              "involvedObject": 10,
-              "involvedObject.annotations.meta_helm_sh/release-name": 11,
-              "involvedObject.annotations.meta_helm_sh/release-namespace": 12,
-              "involvedObject.annotations.prometheus_io/scrape": 13,
-              "involvedObject.apiVersion": 14,
-              "involvedObject.fieldPath": 15,
-              "involvedObject.kind": 16,
-              "involvedObject.labels.app": 17,
-              "involvedObject.labels.app_kubernetes_io/managed-by": 18,
-              "involvedObject.labels.app_kubernetes_io/name": 19,
-              "involvedObject.labels.chart": 20,
-              "involvedObject.labels.controller-revision-hash": 21,
-              "involvedObject.labels.controller-uid": 22,
-              "involvedObject.labels.heritage": 23,
-              "involvedObject.labels.job-name": 24,
-              "involvedObject.labels.k8s-app": 25,
-              "involvedObject.labels.pod-template-generation": 26,
-              "involvedObject.labels.pod-template-hash": 27,
-              "involvedObject.labels.release": 28,
-              "involvedObject.name": 29,
-              "involvedObject.namespace": 30,
-              "involvedObject.resourceVersion": 31,
-              "involvedObject.uid": 32,
-              "lastTimestamp": 33,
-              "message": 1,
-              "metadata.creationTimestamp": 34,
-              "metadata.name": 35,
-              "metadata.namespace": 36,
-              "metadata.resourceVersion": 37,
-              "metadata.uid": 38,
-              "reason": 39,
-              "reportingComponent": 40,
-              "reportingInstance": 41,
-              "sort": 42,
-              "source.component": 43,
-              "source.host": 44,
+              "_type": 5,
+              "action": 41,
+              "clusterName": 42,
+              "count": 6,
+              "eventTime": 7,
+              "firstTimestamp": 1,
+              "involvedObject.annotations.cattle_io/timestamp": 43,
+              "involvedObject.annotations.checksum/config": 44,
+              "involvedObject.annotations.checksum/dashboards-json-config": 45,
+              "involvedObject.annotations.checksum/sc-dashboard-provider-config": 46,
+              "involvedObject.annotations.checksum/secret": 47,
+              "involvedObject.annotations.deprecated_daemonset_template_generation": 48,
+              "involvedObject.annotations.field_cattle_io/ports": 49,
+              "involvedObject.annotations.field_cattle_io/publicEndpoints": 50,
+              "involvedObject.annotations.job_runner_gitlab_com/before_sha": 51,
+              "involvedObject.annotations.job_runner_gitlab_com/id": 52,
+              "involvedObject.annotations.job_runner_gitlab_com/name": 53,
+              "involvedObject.annotations.job_runner_gitlab_com/ref": 54,
+              "involvedObject.annotations.job_runner_gitlab_com/sha": 55,
+              "involvedObject.annotations.job_runner_gitlab_com/url": 56,
+              "involvedObject.annotations.meta_helm_sh/release-name": 8,
+              "involvedObject.annotations.meta_helm_sh/release-namespace": 9,
+              "involvedObject.annotations.project_runner_gitlab_com/id": 57,
+              "involvedObject.annotations.prometheus_io/scrape": 10,
+              "involvedObject.apiVersion": 11,
+              "involvedObject.fieldPath": 12,
+              "involvedObject.kind": 13,
+              "involvedObject.labels.NodeType": 58,
+              "involvedObject.labels.app": 14,
+              "involvedObject.labels.app_kubernetes_io/component": 59,
+              "involvedObject.labels.app_kubernetes_io/instance": 60,
+              "involvedObject.labels.app_kubernetes_io/managed-by": 15,
+              "involvedObject.labels.app_kubernetes_io/name": 16,
+              "involvedObject.labels.app_kubernetes_io/version": 61,
+              "involvedObject.labels.beta_kubernetes_io/arch": 62,
+              "involvedObject.labels.beta_kubernetes_io/instance-type": 63,
+              "involvedObject.labels.beta_kubernetes_io/os": 64,
+              "involvedObject.labels.chart": 17,
+              "involvedObject.labels.controller-revision-hash": 18,
+              "involvedObject.labels.controller-uid": 19,
+              "involvedObject.labels.eks_amazonaws_com/component": 65,
+              "involvedObject.labels.failure-domain_beta_kubernetes_io/region": 66,
+              "involvedObject.labels.failure-domain_beta_kubernetes_io/zone": 67,
+              "involvedObject.labels.heritage": 20,
+              "involvedObject.labels.job-name": 21,
+              "involvedObject.labels.k8s-app": 22,
+              "involvedObject.labels.k8s_io/cloud-provider-aws": 68,
+              "involvedObject.labels.kubernetes_io/arch": 69,
+              "involvedObject.labels.kubernetes_io/hostname": 70,
+              "involvedObject.labels.kubernetes_io/os": 71,
+              "involvedObject.labels.node_kubernetes_io/instance-type": 72,
+              "involvedObject.labels.node_kubernetes_io/lifecycle": 73,
+              "involvedObject.labels.pod": 74,
+              "involvedObject.labels.pod-template-generation": 23,
+              "involvedObject.labels.pod-template-hash": 24,
+              "involvedObject.labels.release": 25,
+              "involvedObject.labels.topology_kubernetes_io/region": 75,
+              "involvedObject.labels.topology_kubernetes_io/zone": 76,
+              "involvedObject.name": 26,
+              "involvedObject.namespace": 27,
+              "involvedObject.resourceVersion": 28,
+              "involvedObject.uid": 29,
+              "lastTimestamp": 30,
+              "message": 0,
+              "metadata.creationTimestamp": 31,
+              "metadata.name": 32,
+              "metadata.namespace": 33,
+              "metadata.resourceVersion": 34,
+              "metadata.uid": 35,
+              "reason": 36,
+              "reportingComponent": 37,
+              "reportingInstance": 38,
+              "source": 77,
+              "source.component": 39,
+              "source.host": 40,
               "type": 2
             },
             "renameByName": {}
@@ -496,8 +550,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "K8S Events from Elastic",
+  "title": "KubeEvents from OpenSearch",
   "uid": "kuMd2Ku7k",
-  "version": 5,
+  "version": 7,
   "weekStart": ""
 }
