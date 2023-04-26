@@ -106,7 +106,7 @@
         ]
       },
       "datasource": {
-        "type": "OpenSearch",
+        "type": "grafana-opensearch-datasource",
         "uid": "${DS_OPENSEARCHKUBEEVENTS}"
       },
       "fieldConfig": {
@@ -194,7 +194,7 @@
             }
           ],
           "datasource": {
-            "type": "OpenSearch",
+            "type": "grafana-opensearch-datasource",
             "uid": "${DS_OPENSEARCHKUBEEVENTS}"
           },
           "hide": true,
@@ -232,7 +232,7 @@
             }
           ],
           "datasource": {
-            "type": "OpenSearch",
+            "type": "grafana-opensearch-datasource",
             "uid": "${DS_OPENSEARCHKUBEEVENTS}"
           },
           "hide": false,
@@ -260,7 +260,7 @@
     },
     {
       "datasource": {
-        "type": "OpenSearch",
+        "type": "grafana-opensearch-datasource",
         "uid": "${DS_OPENSEARCHKUBEEVENTS}"
       },
       "fieldConfig": {
@@ -359,7 +359,7 @@
             }
           ],
           "datasource": {
-            "type": "OpenSearch",
+            "type": "grafana-opensearch-datasource",
             "uid": "${DS_OPENSEARCHKUBEEVENTS}"
           },
           "format": "table",
@@ -380,7 +380,7 @@
     },
     {
       "datasource": {
-        "type": "OpenSearch",
+        "type": "grafana-opensearch-datasource",
         "uid": "${DS_OPENSEARCHKUBEEVENTS}"
       },
       "gridPos": {
@@ -406,7 +406,7 @@
           "alias": "",
           "bucketAggs": [],
           "datasource": {
-            "type": "OpenSearch",
+            "type": "grafana-opensearch-datasource",
             "uid": "${DS_OPENSEARCHKUBEEVENTS}"
           },
           "format": "table",
