@@ -1,14 +1,6 @@
 {
   "__inputs": [
     {
-      "name": "DS_ELASTICSEARCH-KUBEEVENTS",
-      "label": "Elasticsearch-KubeEvents",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "elasticsearch",
-      "pluginName": "Elasticsearch"
-    },
-    {
       "name": "DS_OPENSEARCHKUBEEVENTS",
       "label": "OpensearchKubeEvents",
       "description": "",
@@ -19,12 +11,6 @@
   ],
   "__elements": {},
   "__requires": [
-    {
-      "type": "datasource",
-      "id": "elasticsearch",
-      "name": "Elasticsearch",
-      "version": "1.0.0"
-    },
     {
       "type": "grafana",
       "id": "grafana",
@@ -120,8 +106,8 @@
         ]
       },
       "datasource": {
-        "type": "elasticsearch",
-        "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+        "type": "grafana-opensearch-datasource",
+        "uid": "${DS_OPENSEARCHKUBEEVENTS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -208,8 +194,8 @@
             }
           ],
           "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+            "type": "grafana-opensearch-datasource",
+            "uid": "${DS_OPENSEARCHKUBEEVENTS}"
           },
           "hide": true,
           "metrics": [
@@ -246,8 +232,8 @@
             }
           ],
           "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_ELASTICSEARCH-KUBEEVENTS}"
+            "type": "grafana-opensearch-datasource",
+            "uid": "${DS_OPENSEARCHKUBEEVENTS}"
           },
           "hide": false,
           "metrics": [
@@ -551,7 +537,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "KubeEvents from OpenSearch",
-  "uid": "kuMd2Ku7k",
+  "uid": "kuMd2Ku7k11",
   "version": 7,
   "weekStart": ""
 }
