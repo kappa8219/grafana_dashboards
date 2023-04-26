@@ -18,7 +18,7 @@
           path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
   dashboards:
     grafana-dashboards-kubernetes:
-      k8s-system-api-server:
+      kube-events-os:
         url: $GIT_URL_YOU_HAVE
         token: ''
 ```
