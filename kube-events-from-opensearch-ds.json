@@ -19,7 +19,7 @@
     },
     {
       "type": "datasource",
-      "id": "OpenSearch",
+      "id": "grafana-opensearch-datasource",
       "name": "OpenSearch",
       "version": "2.4.0"
     },
